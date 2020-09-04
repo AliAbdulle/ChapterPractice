@@ -40,4 +40,6 @@ JOIN vehiclebodytypes bt ON vt.body_type_id = bt.vehicle_body_type_id
 JOIN vehiclemakes vmk ON vt.make_id = vmk.vehicle_make_id
 JOIN vehiclemodels vmd ON vt.model_id = vmd.vehicle_model_id;
 
+SELECT * FROM vihecle;
+
 
