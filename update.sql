@@ -10,6 +10,7 @@ WHERE dealership_employee_id = 10;
 
 SELECT * FROM dealershipemployees;
 
+
 --Practice: Sales
 --A Sales associate needs to update a sales record because her customer want so pay wish Mastercard instead of American 
 --Express. Update Customer, Layla Igglesden Sales record which has an invoice number of 2781047589.
@@ -35,7 +36,19 @@ WHERE invoice_number = '7628231837';
 SELECT * FROM SALES
 WHERE invoice_number = '7628231837';
 
+--An employee was recently fired so we must delete them from our database. Delete the employee with employee_id of 35.
+--What problems might you run into when deleting? How would you recommend fixing it?
+DELETE FROM employees
+WHERE employee_id = 35 AND employee_type_id = 2 and sale_id = 35;
 
+SELECT * FROM employees
+WHERE employee_id = 35;
+
+SELECT * FROM employeetypes;
+WHERE employee_id = 35;
+
+SELECT * FROM sales
+WHERE employee_id = 35;
 
 
 
