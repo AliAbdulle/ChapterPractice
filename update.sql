@@ -47,9 +47,7 @@ WHERE employee_id = 35;
 SELECT * FROM employees
 WHERE employee_id = 35;
 
-SELECT * FROM sales
-WHERE employee_id = 35;
- ROLLBACK;
+--------------------------------------------------------------------------------------------------------------------
 
 
 
