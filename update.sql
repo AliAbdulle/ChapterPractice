@@ -21,9 +21,23 @@ WHERE customer_id = 13;
 select * from customers
 where first_name = 'Layla' and last_name = 'Igglesden';
 
-
 select * from sales
 where customer_id = 13;
+
+
+________________________________________________________________________________________________________________________________
+--Deleting Data
+--A sales employee at carnival creates a new sales record for a sale they are trying to close. The customer, last minute
+--decided not to purchase the vehicle. Help delete the Sales record with an invoice number of '7628231837'.
+DELETE FROM sales
+WHERE invoice_number = '7628231837';
+
+SELECT * FROM SALES
+WHERE invoice_number = '7628231837';
+
+
+
+
 
 
 
