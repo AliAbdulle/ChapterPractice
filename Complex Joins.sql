@@ -11,4 +11,18 @@ JOIN salestypes st ON s.sales_type_id = st.sales_type_id
 WHERE st.sales_type_id = 1
 GROUP BY d.dealership_id
 ORDER BY  d.dealership_id;
- 
+--OR
+
+SELECT 
+	d.business_name,
+	count(s.sale_id) as number_of_sales 
+FROM dealerships d
+JOIN sales s ON s.dealership_id = s.dealership_id 
+JOIN salestypes st ON s.sales_type_id = st.sales_type_id
+WHERE st.sales_type_id = 2
+GROUP BY d.dealership_id
+ORDER BY  d.dealership_id;
+
+-----Practice: Leased Types
+--Produce a report that determines the most popular vehicle model that is leased.
+
