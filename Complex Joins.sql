@@ -51,3 +51,32 @@ JOIN vehiclemakes  vmk ON vt.make_id = vmk.vehicle_make_id
 GROUP BY vmk.vehicle_make_id
 ORDER BY count(s.sale_id) DESC;
 
+
+--Which employee type sold the most of that make?
+SELECT 
+	et.name,
+	count(s.employee_id) as lease_count
+FROM sales s
+JOIN vehicles v ON s.vehicle_id = v.vehicle_id
+JOIN vehicletypes vt ON v.vehicle_id = vt.vehicle_type_id
+JOIN vehiclemakes  vmk ON vt.make_id = vmk.vehicle_make_id
+JOIN employees e ON s.employee_id = e.employee_id
+JOIN employeetypes et ON et.employee_type_id = e.employee_type_id
+
+WHERE vmk.vehicle_make_id = (
+	SELECT 
+		vmk.vehicle_make_id
+	FROM
+	sales s
+	JOIN vehicles v ON s.vehicle_id = v.vehicle_id
+	JOIN vehicletypes vt ON v.vehicle_type_id = vt.vehicle_type_id
+	JOIN vehiclemakes  vmk ON vt.make_id = vmk.vehicle_make_id
+	
+GROUP BY vmk.vehicle_make_id
+ORDER BY count(s.sale_id) DESC
+	limit 1
+	)
+GROUP BY et.employee_type_id
+ORDER BY count(s.employee_id) DESC;
+
+	
