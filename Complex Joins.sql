@@ -25,4 +25,29 @@ ORDER BY  d.dealership_id;
 
 -----Practice: Leased Types
 --Produce a report that determines the most popular vehicle model that is leased.
+SELECT 
+	vm.name,
+	count(s.sale_id) as lease_count
+FROM sales s
+JOIN vehicles v ON s.vehicle_id = v.vehicle_id
+JOIN vehicletypes vt ON v.vehicle_id = vt.vehicle_type_id
+JOIN vehiclemodels  vm ON vt.vehicle_type_id = vm.vehicle_model_id
+WHERE s.sales_type_id = 2
+GROUP BY vm.vehicle_model_id
+ORDER BY count(s.sale_id) DESC;
+
+
+--Who Sold What
+--What is the most popular vehicle make in terms of number of sales?
+
+SELECT 
+	vmk.name,
+	count(s.sale_id) as lease_count
+FROM sales s
+JOIN salestypes st ON st.sales_type_id = st.sales_type_id 
+JOIN vehicles v ON s.vehicle_id = v.vehicle_id
+JOIN vehicletypes vt ON v.vehicle_id = vt.vehicle_type_id
+JOIN vehiclemakes  vmk ON vt.make_id = vmk.vehicle_make_id
+GROUP BY vmk.vehicle_make_id
+ORDER BY count(s.sale_id) DESC;
 
