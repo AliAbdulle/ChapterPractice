@@ -36,3 +36,12 @@ JOIN salestypes st ON s.sales_type_id = st.sales_type_id
 WHERe LOWER(st.name) LIKE '%lease';
 
 
+--Write a query that shows the lease income per dealership for the current month.
+
+SELECT CONCAT(e.first_name, '',e.last_name) AS employee,
+			SUM(s.price)
+FROM sales s
+JOIN employees e ON s.employee_id = e.employee_id
+GROUP BY e.employee_id
+
+
