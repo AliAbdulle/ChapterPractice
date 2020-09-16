@@ -45,3 +45,6 @@ JOIN employees e ON s.employee_id = e.employee_id
 GROUP BY e.employee_id
 
 
+--Write a query that shows the lease income per dealership for the current year.
+
+
