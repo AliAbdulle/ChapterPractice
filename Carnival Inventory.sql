@@ -27,7 +27,7 @@ ORDER BY COUNT(v.vehicle_type_id)desc;
 
 --Diverse Dealerships
 
---Which dealerships are currently selling the least number of vehicle models? This will let dealerships market vehicle models more effectively per region.
+--1. Which dealerships are currently selling the least number of vehicle models? This will let dealerships market vehicle models more effectively per region.
 
 SELECT
 	d.business_name,
@@ -42,6 +42,17 @@ GROUP by d.dealership_id
 ORDER by COUNT(md.vehicle_model_id);
 
 
+--2. Which dealerships are currently selling the highest number of vehicle models? This will let dealerships know which regions have either a high population, or less brand loyalty.
 
 
-
+SELECT
+	d.business_name,
+	COUNT(md.vehicle_model_id) as TOTAl_count
+FROM sales s
+JOIN dealerships d ON s.dealership_id = d.dealership_id
+JOIN vehicles v ON v.vehicle_id = v.vehicle_id
+JOIN vehicletypes vt ON vt.vehicle_type_id = vt.vehicle_type_id
+JOIN vehiclebodytypes bt ON vt.body_type_id = bt.vehicle_body_type_id
+JOIN vehiclemodels md ON vt.model_id = md.vehicle_model_id
+GROUP by d.dealership_id
+ORDER by COUNT(md.vehicle_model_id)desc;
