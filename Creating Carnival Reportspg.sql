@@ -21,43 +21,45 @@ VALUES (NEW.deposit,CURRENT_DATE, NEW.sale_id);
 RETURN null;
 END;
 $$
-create trigger new_sale_made
-after insert
-on sales
-for each row
-execute procedure add_acc_recieveable();
+
+
+CREATE TRIGGER new_sale_made
+AFTER INSERT
+ON sales
+FOR EACH ROW
+EXECUTE PROCEDURE add_acc_recieveable();
 
 
 --2. Set up a trigger on the Sales table for when the sale_returned flag is updated. Add a new row to the Accounts Receivable table with the deposit as debit_amount,
 --the timestamp as date_received, etc.
 
-create or replace function update_acc_receivable()
-returns trigger
- language plpgsql
- As $$
- BEGIN
+CREATE OR REPLACE FUNCTION update_acc_receivable()
+RETURNS TRIGGER 
+LANGUAGE plpgsql
+AS $$
+BEGIN
  	INSERT INTO accountreceivable( debit_amount, date_received, sale_id)
-	values(NEW.deposit,current_date,new.sale_id);
-	return null;
+	VALUES (NEW.deposit,CURRENT_DATE, NEW.sale_id);
+RETURN null;
 END;
 $$
 
-create trigger sales_return
-after update
-on sales
-for each row 
-when(old.sale_returned is distinct from new.sale_returned)
-execute procedure update_acc_receivable();
+CREATE TRIGGER sales_return
+AFTER UPDATE
+ON sales
+FOR EACH ROW
+WHEN(OLD.sale_returned IS DISTINCT FROM NEW.sale_returned)
+EXECUTE PROCEDURE update_acc_receivable();
 
-INSERT INTO public.sales(
+INSERT INTO PUBLIC.sales(
 	 sales_type_id, vehicle_id, employee_id, customer_id, dealership_id, price, deposit, purchase_date, pickup_date, invoice_number, payment_method, sale_returned)
 	VALUES ( 2, 1, 1, 1, 1, 12000, 500, CURRENT_DATE, CURRENT_DATE, 123, 'visa', false);
 	
 	
-update sales set sale_returned = true where sale_id = 1
+UPDATE sales SET sale_returned = true WHERE sale_id = 1
 
-select * from accountreceivable;
-select * from sales order bysale_returned;
+SELECT * FROM accountreceivable;
+SELECT * FROM sales ORDER bysale_returned;
 
 --Help out HR fast track turnover by providing the following:
 
