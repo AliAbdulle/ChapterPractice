@@ -67,32 +67,48 @@ SELECT * FROM sales ORDER bysale_returned;
 --to the Dealershipemployees table for the two dealerships the new employee will start at.
 
 
-create procedure new_employee(in emp_fname varchar, in emp_lname varchar,
-							  in emp_email varchar,in emp_phone varchar,
-							 in emp_type_id int, in dept1_id int, in dept2_id int)
-language plpgsql
-as $$
-declare
+CREATE PROCEDURE new_employee(IN emp_fname varchar, 
+							  IN emp_lname varchar,
+							  IN emp_email varchar,
+							  IN emp_phone varchar,
+							  IN emp_type_id int, 
+							  IN dept1_id int,
+							  IN dept2_id int)
+LANGUAGE plpgsql
+AS $$
+DECLARE
 new_emp_id int;
-begin
-INSERT INTO public.employees(
-	first_name, last_name, email_address, phone, employee_type_id)
-	VALUES ( emp_fname, emp_lname, emp_email, emp_phone, emp_type_id)
-	returning employee_id into new_emp_id;
-INSERT INTO public.dealershipemployees(
+BEGIN
+INSERT INTO PUBLIC.employees(
+							first_name,
+							last_name, 
+							email_address, 
+							phone,
+							employee_type_id)
+VALUES ( 
+	emp_fname,
+	emp_lname,
+	emp_email,
+	emp_phone, 
+	emp_type_id)
+RETURNING employee_id INTO new_emp_id;
+INSERT INTO PUBLIC.dealershipemployees(
 	 employee_id, dealership_id)
-	VALUES ( new_emp_id, dept1_id);
-	INSERT INTO public.dealershipemployees(
+VALUES ( new_emp_id, dept1_id);
+INSERT INTO PUBLIC.dealershipemployees(
 	 employee_id, dealership_id)
-	VALUES ( new_emp_id, dept2_id);
-end
+VALUES ( new_emp_id, dept2_id);
+END
 $$;
 -- run procedure
-call new_employee('test','test','test','test',1,2,3)
+CALL new_employee('test','test','test','test',1,2,3)
 -- check if things added
-select * from dealershipemployees order by employee_id desc;
+SELECT * FROM dealershipemployees ORDER BY employee_id DESC;
 
 
+
+---Create a stored procedure with a transaction to handle an employee leaving. The employee record is removed and all records associating the 
+--employee with dealerships must also be removed.
 
 
 
