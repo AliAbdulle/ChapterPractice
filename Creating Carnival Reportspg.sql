@@ -11,15 +11,15 @@ CREATE TABLE accountreceivable (
 --1. Set up a trigger on the Sales table. When a new row is added, add a new record to the Accounts Receivable table with the deposit 
 --as credit_amount, the timestamp as date_received and the appropriate sale_id.
  
-create OR REPLACE function add_acc_recieveable()
-returns trigger
-language plpgsql
-as $$
-Begin
-insert into accountreceivable (credit_amount, date_received,sale_id)
-values (new.deposit,CURRENT_DATE,new.sale_id);
-return null;
-end;
+CREATE OR REPLACE FUNCTION add_acc_recieveable()
+RETURNS TRIGGER
+LANGUAGE plpgsql
+AS $$
+BEGIN
+INSERT INTO accountreceivable (credit_amount, date_received,sale_id)
+VALUES (NEW.deposit,CURRENT_DATE, NEW.sale_id);
+RETURN null;
+END;
 $$
 create trigger new_sale_made
 after insert
@@ -57,8 +57,7 @@ INSERT INTO public.sales(
 update sales set sale_returned = true where sale_id = 1
 
 select * from accountreceivable;
-select * from sales order by sale_id;
-
+select * from sales order bysale_returned;
 
 --Help out HR fast track turnover by providing the following:
 
@@ -89,7 +88,10 @@ $$;
 -- run procedure
 call new_employee('test','test','test','test',1,2,3)
 -- check if things added
-select * from dealershipemployees order by employee_id desc
+select * from dealershipemployees order by employee_id desc;
+
+
+
 
 
 
