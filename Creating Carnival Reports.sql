@@ -34,3 +34,17 @@ JOIN vehiclemodels vm ON vt.model_id = vm.vehicle_model_id
 GROUP BY vm.name
 ORDER BY SUM(s.price) desc
 LIMIT 1;
+
+
+--Top Performance
+--1. Which employees generate the most income per dealership?
+SELECT 
+	vm.name,
+	vk.name,
+	COUNT(v.vehicle_type_id)
+FROM vehicles v
+JOIN vehicletypes vt ON v.vehicle_type_id = vt.vehicle_type_id
+JOIN vehiclemodels vm ON vt.model_id = vm.vehicle_model_id
+JOIN vehiclemakes vk ON vt.make_id = vk.vehicle_make_id
+GROUP BY vm.vehicle_model_id, vk.name
+ORDER BY COUNT(v.vehicle_type_id) desc;
