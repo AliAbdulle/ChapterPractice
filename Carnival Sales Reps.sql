@@ -34,5 +34,16 @@ ORDER BY COUNT(d.dealership_id) desc
 LIMIT 3;
 
 
+--Get a report on the top two employees who has made the most sales through leasing vehicles.
 
-
+SELECT
+	e.first_name,
+	e.last_name,
+	COUNT(s.sale_id)
+FROM employees e
+JOIN sales s ON s.employee_id = e.employee_id
+join salestypes st ON s.sales_type_id = st.sales_type_id
+WHERE LOWER(st.name) LIKE '%lease'
+GROUP BY e.employee_id
+ORDER BY COUNT(s.sale_id)
+LIMIT 2;
