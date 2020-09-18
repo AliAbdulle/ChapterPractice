@@ -2,8 +2,8 @@
 --and a FK to associate a sale with each transaction.
 CREATE TABLE accountreceivable (
 	account_id int primary key 	GENERATED ALWAYS AS IDENTITY,
-	credit_amount INT,
-	debit_amount int,
+	credit_amount double,
+	debit_amount double,
 	date_received DATE,
 	sale_id int, FOREIGN KEY (sale_id) REFERENCES Sales (sale_id)
 	
@@ -111,8 +111,17 @@ SELECT * FROM dealershipemployees ORDER BY employee_id DESC;
 --employee with dealerships must also be removed.
 
 
+CREATE OR REPLACE PROCEDURE remove_employee(in emp_id int)
+LANGUAGE plpgsql
+AS $$
+BEGIN
+DELETE FROM dealershipemployees WHERE employee_id = emp_id;
+DELETE FROM employees WHERE employee_id = emp_id;
+END;
+$$
 
-
-
+SELECT * FROM dealershipemployees ORDER BY employee_id DESC
+SELECT * FROM  employees ORDER By employee_id DESC
+CALL remove_employee(1001)
 
 
